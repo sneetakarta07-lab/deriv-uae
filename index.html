@@ -50,7 +50,7 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
         }
 
-        /* Top Brand Header */
+        /* Brand Header */
         .brand-header {
             display: flex;
             justify-content: space-between;
@@ -202,7 +202,7 @@
             font-size: 0.95rem;
         }
 
-        /* Action Button */
+        /* CTA Button */
         .cta-btn {
             display: block;
             width: 100%;
@@ -269,11 +269,11 @@
             Create your account today, enter the official referral code below, and unlock your $20 First Time Trade bonus.
         </p>
 
-        <!-- Referral Box -->
+        <!-- Referral Box with NEW CODE: DH54ZEQFYZH5 -->
         <div class="promo-box">
             <div class="promo-text">
                 <div class="promo-label" id="codeLabel">Referral Code</div>
-                <div class="promo-code" id="refCodeVal">F8SLSR4QNQHU</div>
+                <div class="promo-code" id="refCodeVal">DH54ZEQFYZH5</div>
             </div>
             <button class="copy-btn" id="copyBtn" onclick="copyCode()">Copy</button>
         </div>
@@ -285,7 +285,7 @@
             <li><span class="check">✓</span> <span id="feat3">Instant deposit & fast local withdrawals</span></li>
         </ul>
 
-        <!-- Action Button -->
+        <!-- CTA Button with NEW LINK -->
         <a href="https://t.deriv.link?t=NEGTK7BHFWUG" id="ctaBtn" class="cta-btn" onclick="handleCtaClick(event)">
             Claim $20 Bonus Now
         </a>
@@ -300,7 +300,6 @@
     </footer>
 
     <script>
-        // آپ کا نیا ٹریکنگ لنک
         const BASE_AFFILIATE_URL = "https://t.deriv.link?t=NEGTK7BHFWUG";
         const POSTBACK_BASE_URL = "https://postback.pbmnd.com/track?uid=1055";
         const DEFAULT_PAYOUT = "0";
@@ -313,7 +312,6 @@
 
         let finalAffiliateUrl = BASE_AFFILIATE_URL;
 
-        // ٹریکنگ ڈیٹا جمع کرنے اور لنک کے ساتھ جوڑنے کا فنکشن
         function initTracking() {
             const urlParams = new URLSearchParams(window.location.search);
             const collectedData = {};
@@ -351,7 +349,6 @@
             document.getElementById('ctaBtn').href = finalAffiliateUrl;
         }
 
-        // بٹن کلک پر کنورژن پوسٹ بیک فائر اور ڈیریو اوپن
         function handleCtaClick(event) {
             event.preventDefault();
 
@@ -371,7 +368,6 @@
             window.open(finalAffiliateUrl, '_blank', 'noopener');
         }
 
-        // کثیر لسانی سپورٹ (Translations)
         const translations = {
             en: {
                 dir: 'ltr',
@@ -410,8 +406,8 @@
                 copyBtn: 'कॉपी करें',
                 copiedText: 'कॉपी हुआ!',
                 feat1: 'पहले ट्रेड पर विशेष $20 FTT बोनस',
-                feat2: 'सिंथेटिक इंडेक्स और फॉरेکس 24/7 ट्रेड करें',
-                feat3: 'तुरंत डिपॉजिट और तेज़ विथड्रॉल सुविधा',
+                feat2: 'सिंथेटिक इंडेक्स اور फॉरेक्स 24/7 ट्रेड करें',
+                feat3: 'तुरंत डिपॉजिट اور तेज़ विथड्रॉल सुविधा',
                 ctaBtn: 'अभी $20 बोनस प्राप्त करें',
                 riskWarning: 'जोखिम चेतावनी: वित्तीय ट्रेडिंग में पूंजी हानि का जोखिम होता है। फर्स्ट टाइम ट्रेड ($20) प्रमोशन के नियम व शर्तें लागू।'
             },
@@ -437,7 +433,7 @@
             document.documentElement.setAttribute('dir', data.dir);
             document.documentElement.setAttribute('lang', lang);
 
-            document.getElementById('badgeText').innerText = data.badgeText;
+            document.getElementById('badgeText').innerHTML = data.badgeText;
             document.getElementById('mainHeading').innerHTML = data.mainHeading;
             document.getElementById('subHeading').innerText = data.subHeading;
             document.getElementById('codeLabel').innerText = data.codeLabel;
@@ -454,7 +450,6 @@
         window.addEventListener('DOMContentLoaded', () => {
             initTracking();
 
-            // زبان کی خودکار شناخت
             const browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
             let targetLang = 'en';
 
