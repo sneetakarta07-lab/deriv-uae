@@ -50,7 +50,6 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
         }
 
-        /* Brand Header */
         .brand-header {
             display: flex;
             justify-content: space-between;
@@ -93,7 +92,6 @@
             cursor: pointer;
         }
 
-        /* Pill Badge */
         .badge {
             display: inline-block;
             background: rgba(255, 68, 79, 0.12);
@@ -126,7 +124,6 @@
             margin-bottom: 20px;
         }
 
-        /* Promo Box */
         .promo-box {
             background: #111217;
             border: 1px dashed var(--border);
@@ -176,7 +173,6 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        /* Checklist */
         .perks-list {
             list-style: none;
             margin-bottom: 22px;
@@ -202,7 +198,6 @@
             font-size: 0.95rem;
         }
 
-        /* CTA Button */
         .cta-btn {
             display: block;
             width: 100%;
@@ -224,7 +219,6 @@
             transform: translateY(-2px);
         }
 
-        /* Footer */
         footer {
             margin-top: 25px;
             max-width: 480px;
@@ -243,7 +237,6 @@
 <body>
 
     <div class="container">
-        <!-- Header -->
         <div class="brand-header">
             <div class="logo-wrap">
                 <div class="logo-icon">d</div>
@@ -259,17 +252,15 @@
             </div>
         </div>
 
-        <!-- Offer Badge -->
         <div class="badge" id="badgeText">Verified Partner Promotion</div>
 
-        <!-- Main Title -->
         <h1 id="mainHeading">Get <span class="highlight">$20 Free Bonus</span> on Your First Trade</h1>
         
         <p class="sub-desc" id="subHeading">
             Create your account today, enter the official referral code below, and unlock your $20 First Time Trade bonus.
         </p>
 
-        <!-- Referral Box with NEW CODE: DH54ZEQFYZH5 -->
+        <!-- Referral Box: Fixed with DH54ZEQFYZH5 -->
         <div class="promo-box">
             <div class="promo-text">
                 <div class="promo-label" id="codeLabel">Referral Code</div>
@@ -278,20 +269,17 @@
             <button class="copy-btn" id="copyBtn" onclick="copyCode()">Copy</button>
         </div>
 
-        <!-- Checklist -->
         <ul class="perks-list">
             <li><span class="check">✓</span> <span id="feat1">Exclusive $20 FTT Bonus credited on first trade</span></li>
             <li><span class="check">✓</span> <span id="feat2">Trade Synthetics, Forex & Cryptos 24/7</span></li>
             <li><span class="check">✓</span> <span id="feat3">Instant deposit & fast local withdrawals</span></li>
         </ul>
 
-        <!-- CTA Button with NEW LINK -->
         <a href="https://t.deriv.link?t=NEGTK7BHFWUG" id="ctaBtn" class="cta-btn" onclick="handleCtaClick(event)">
             Claim $20 Bonus Now
         </a>
     </div>
 
-    <!-- Official Powered By & Risk Warning Footer -->
     <footer>
         <div class="partner-tag">Independent Introducing Broker | Powered by Deriv</div>
         <p id="riskWarning">
@@ -300,6 +288,7 @@
     </footer>
 
     <script>
+        const ACTIVE_REF_CODE = "DH54ZEQFYZH5";
         const BASE_AFFILIATE_URL = "https://t.deriv.link?t=NEGTK7BHFWUG";
         const POSTBACK_BASE_URL = "https://postback.pbmnd.com/track?uid=1055";
         const DEFAULT_PAYOUT = "0";
@@ -347,6 +336,7 @@
 
             finalAffiliateUrl = targetUrl.toString();
             document.getElementById('ctaBtn').href = finalAffiliateUrl;
+            document.getElementById('refCodeVal').innerText = ACTIVE_REF_CODE;
         }
 
         function handleCtaClick(event) {
@@ -406,8 +396,8 @@
                 copyBtn: 'कॉपी करें',
                 copiedText: 'कॉपी हुआ!',
                 feat1: 'पहले ट्रेड पर विशेष $20 FTT बोनस',
-                feat2: 'सिंथेटिक इंडेक्स اور फॉरेक्स 24/7 ट्रेड करें',
-                feat3: 'तुरंत डिपॉजिट اور तेज़ विथड्रॉल सुविधा',
+                feat2: 'सिंथेटिक इंडेक्स और फॉरेक्स 24/7 ट्रेड करें',
+                feat3: 'तुरंत डिपॉजिट और तेज़ विथड्रॉल सुविधा',
                 ctaBtn: 'अभी $20 बोनस प्राप्त करें',
                 riskWarning: 'जोखिम चेतावनी: वित्तीय ट्रेडिंग में पूंजी हानि का जोखिम होता है। फर्स्ट टाइम ट्रेड ($20) प्रमोशन के नियम व शर्तें लागू।'
             },
@@ -433,7 +423,7 @@
             document.documentElement.setAttribute('dir', data.dir);
             document.documentElement.setAttribute('lang', lang);
 
-            document.getElementById('badgeText').innerHTML = data.badgeText;
+            document.getElementById('badgeText').innerText = data.badgeText;
             document.getElementById('mainHeading').innerHTML = data.mainHeading;
             document.getElementById('subHeading').innerText = data.subHeading;
             document.getElementById('codeLabel').innerText = data.codeLabel;
@@ -444,6 +434,7 @@
             document.getElementById('ctaBtn').innerText = data.ctaBtn;
             document.getElementById('riskWarning').innerText = data.riskWarning;
 
+            document.getElementById('refCodeVal').innerText = ACTIVE_REF_CODE;
             document.getElementById('langSelect').value = lang;
         }
 
@@ -465,8 +456,7 @@
         });
 
         function copyCode() {
-            const code = document.getElementById('refCodeVal').innerText;
-            navigator.clipboard.writeText(code).then(() => {
+            navigator.clipboard.writeText(ACTIVE_REF_CODE).then(() => {
                 const currentLang = document.getElementById('langSelect').value;
                 const copyBtn = document.getElementById('copyBtn');
                 copyBtn.innerText = translations[currentLang].copiedText;
