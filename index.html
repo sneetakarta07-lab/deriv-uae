@@ -36,9 +36,7 @@
             text-align: center;
         }
 
-        [dir="rtl"] {
-            direction: rtl;
-        }
+        [dir="rtl"] { direction: rtl; }
 
         .container {
             width: 100%;
@@ -49,7 +47,6 @@
             border-radius: 16px;
             padding: 24px 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            position: relative;
         }
 
         .top-bar {
@@ -109,14 +106,8 @@
             transition: width 0.3s ease;
         }
 
-        .step {
-            display: none;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        .step.active {
-            display: block;
-        }
+        .step { display: none; }
+        .step.active { display: block; animation: fadeIn 0.3s ease-in-out; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(6px); }
@@ -168,18 +159,11 @@
             align-items: center;
         }
 
-        [dir="rtl"] .opt-btn {
-            text-align: right;
-        }
+        [dir="rtl"] .opt-btn { text-align: right; }
 
         .opt-btn:hover {
             border-color: var(--primary);
             background: #292a37;
-        }
-
-        .opt-btn span.arrow {
-            color: var(--text-muted);
-            font-weight: bold;
         }
 
         .badge-verified {
@@ -252,7 +236,7 @@
                 <span>deriv</span>
             </div>
             <div class="lang-switch">
-                <select id="langSelect" onchange="switchLanguage(this.value)">
+                <select id="langSelect" onchange="switchLanguage(this.value, true)">
                     <option value="en">English</option>
                     <option value="ar">العربية (Arabic)</option>
                     <option value="hi">हिन्दी (Hindi)</option>
@@ -273,11 +257,11 @@
             <div class="btn-group">
                 <button class="opt-btn" onclick="nextStep(2)">
                     <span id="opt1A">Yes, I have trading experience</span>
-                    <span class="arrow">→</span>
+                    <span>→</span>
                 </button>
                 <button class="opt-btn" onclick="nextStep(2)">
                     <span id="opt1B">No, I am a beginner</span>
-                    <span class="arrow">→</span>
+                    <span>→</span>
                 </button>
             </div>
         </div>
@@ -290,11 +274,11 @@
             <div class="btn-group">
                 <button class="opt-btn" onclick="nextStep(3)">
                     <span id="opt2A">Yes, unlock my $20 Bonus</span>
-                    <span class="arrow">→</span>
+                    <span>→</span>
                 </button>
                 <button class="opt-btn" onclick="nextStep(3)">
                     <span id="opt2B">Yes, show sign-up details</span>
-                    <span class="arrow">→</span>
+                    <span>→</span>
                 </button>
             </div>
         </div>
@@ -303,7 +287,7 @@
         <div class="step" id="step3">
             <div class="badge-verified" id="resBadge">✓ You are Eligible!</div>
             <h2 class="question-title" id="resTitle">Your $20 Welcome Bonus is Reserved</h2>
-            <p class="question-sub" id="resSub">Click below to open your Deriv account. Your partner referral code is ready to apply.</p>
+            <p class="question-sub" id="resSub">Click below to register on Deriv. Promo code will be copied automatically.</p>
 
             <div class="promo-display">
                 <span style="font-size:0.75rem; color:var(--text-muted);" id="promoHead">REFERRAL CODE</span>
@@ -318,42 +302,59 @@
 
     <footer>
         <p>Independent Introducing Broker | Powered by Deriv API</p>
-        <p id="riskText" style="margin-top: 4px;">
-            Risk Warning: Trading derivatives involves risk of capital loss. Promotion terms apply.
-        </p>
+        <p id="riskText" style="margin-top: 4px;">Risk Warning: Trading derivatives involves risk of capital loss.</p>
     </footer>
 
     <script>
         const ACTIVE_REF_CODE = "DH54ZEQFYZH5";
         const BASE_AFFILIATE_URL = "https://t.deriv.link?t=NEGTK7BHFWUG";
         
-        // PropellerAds Postback Base URL
-        const PROPELLER_POSTBACK_BASE = "https://ad.propellerads.com/conversion.php?aid=246772&pid=&tid=63885";
-        const DEFAULT_PAYOUT = "0";
+        // PropellerAds Tracking Credentials
+        const PA_AID = "246772";
+        const PA_TID = "63885";
 
+        let detectedBrowserLang = "en";
         let finalAffiliateUrl = BASE_AFFILIATE_URL;
 
-        function initTracking() {
+        function detectUserLanguage() {
+            const rawLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+            
+            // Normalize language identifier for reporting
+            if (rawLang.startsWith('ar')) return 'ar';
+            if (rawLang.startsWith('hi') || rawLang.startsWith('ur')) return 'hi';
+            if (rawLang.startsWith('tl') || rawLang.startsWith('fil')) return 'tl';
+            if (rawLang.startsWith('en')) return 'en';
+            return rawLang.split('-')[0] || 'other';
+        }
+
+        function updateTrackingLinks() {
             const urlParams = new URLSearchParams(window.location.search);
             
-            // PropellerAds visitor_id check
-            const visitorId = urlParams.get('visitor_id') || urlParams.get('subid') || urlParams.get('clickid');
-            const zoneId = urlParams.get('zone_id') || urlParams.get('zoneid');
+            // Check visitor ID across networks (PropellerAds / Mondiad)
+            const visitorId = urlParams.get('visitor_id') || 
+                              urlParams.get('clickid') || 
+                              urlParams.get('subid') || 
+                              sessionStorage.getItem('t_visitor_id') || "";
 
-            if (visitorId) {
-                sessionStorage.setItem('pa_visitor_id', visitorId);
-            }
-            if (zoneId) {
-                sessionStorage.setItem('pa_zone_id', zoneId);
-            }
+            const zoneId = urlParams.get('zone_id') || 
+                           urlParams.get('zoneid') || 
+                           sessionStorage.getItem('t_zone_id') || "";
+
+            if (visitorId) sessionStorage.setItem('t_visitor_id', visitorId);
+            if (zoneId) sessionStorage.setItem('t_zone_id', zoneId);
 
             const target = new URL(BASE_AFFILIATE_URL);
+            
+            // Deriv Affiliate Sub ID Mapping:
+            // sub_id  = Click / Visitor ID
+            // sub_id2 = Zone ID
+            // sub_id3 = Detected Browser Language (e.g. lang_ar, lang_hi, lang_en)
             if (visitorId) target.searchParams.set('sub_id', visitorId);
             if (zoneId) target.searchParams.set('sub_id2', zoneId);
+            target.searchParams.set('sub_id3', 'lang_' + detectedBrowserLang);
 
-            // Pass other query parameters
             urlParams.forEach((val, key) => {
-                if (!['t', 'sub_id', 'sub_id2'].includes(key)) {
+                if (!['t', 'sub_id', 'sub_id2', 'sub_id3'].includes(key)) {
                     target.searchParams.set(key, val);
                 }
             });
@@ -371,23 +372,28 @@
         }
 
         function handleFinalRedirect() {
-            // Copy referral code to clipboard
-            navigator.clipboard.writeText(ACTIVE_REF_CODE).catch(() => {});
+            // Auto copy promo code
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(ACTIVE_REF_CODE).catch(() => {});
+            }
 
-            const visitorId = sessionStorage.getItem('pa_visitor_id') || new URLSearchParams(window.location.search).get('visitor_id');
+            const visitorId = sessionStorage.getItem('t_visitor_id') || 
+                              new URLSearchParams(window.location.search).get('visitor_id');
 
             // Fire PropellerAds Postback
             if (visitorId) {
-                const pbUrl = `${PROPELLER_POSTBACK_BASE}&visitor_id=${encodeURIComponent(visitorId)}&payout=${encodeURIComponent(DEFAULT_PAYOUT)}`;
+                const postbackUrl = `https://ad.propellerads.com/conversion.php?aid=${PA_AID}&pid=&tid=${PA_TID}&visitor_id=${encodeURIComponent(visitorId)}&payout=0`;
+                
                 if (navigator.sendBeacon) {
-                    navigator.sendBeacon(pbUrl);
-                } else {
-                    const img = new Image();
-                    img.src = pbUrl;
+                    navigator.sendBeacon(postbackUrl);
                 }
+                const img = new Image();
+                img.src = postbackUrl;
             }
 
-            window.open(finalAffiliateUrl, '_blank', 'noopener');
+            setTimeout(() => {
+                window.location.href = finalAffiliateUrl;
+            }, 150);
         }
 
         const translations = {
@@ -408,7 +414,7 @@
                 resSub: 'Click below to register on Deriv. Promo code will be copied automatically.',
                 promoHead: 'REFERRAL CODE',
                 submitCta: 'Claim $20 Bonus & Register →',
-                riskText: 'Risk Warning: Trading derivatives involves risk of capital loss. Promotion terms apply.'
+                riskText: 'Risk Warning: Trading derivatives involves risk of capital loss.'
             },
             ar: {
                 dir: 'rtl',
@@ -443,7 +449,7 @@
                 opt2B: 'हाँ, साइन अप विवरण दिखाएं',
                 resBadge: '✓ आप पात्र (Eligible) हैं!',
                 resTitle: 'आपका $20 वेलकम बोनस सुरक्षित है',
-                resSub: 'Deriv पर खाता खोलने के लिए नीचे क्लिक करें। रेफरल कोड अपने आप कॉपी हो जाएगा।',
+                resSub: 'Deriv पर खाता खोलने के लिए नीचे क्लिक करें। रेफरل कोड अपने आप कॉपी हो जाएगा।',
                 promoHead: 'रेफरल कोड',
                 submitCta: 'अभी $20 बोनस पाएं और रजिस्टर करें →',
                 riskText: 'जोखिम चेतावनी: डेरिवेटिव ट्रेडिंग में पूंजी हानि का जोखिम होता है।'
@@ -469,8 +475,10 @@
             }
         };
 
-        function switchLanguage(lang) {
+        function switchLanguage(lang, manual = false) {
+            detectedBrowserLang = lang;
             const data = translations[lang] || translations.en;
+
             document.documentElement.setAttribute('dir', data.dir);
             document.documentElement.setAttribute('lang', lang);
 
@@ -492,20 +500,15 @@
             document.getElementById('promoHead').innerText = data.promoHead;
             document.getElementById('submitCta').innerText = data.submitCta;
             document.getElementById('riskText').innerText = data.riskText;
-
             document.getElementById('langSelect').value = lang;
+
+            // Update URL with newly selected/detected language
+            updateTrackingLinks();
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            initTracking();
-
-            const browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
-            let target = 'en';
-            if (browserLang.startsWith('ar')) target = 'ar';
-            else if (browserLang.startsWith('hi')) target = 'hi';
-            else if (browserLang.startsWith('tl') || browserLang.startsWith('fil')) target = 'tl';
-
-            switchLanguage(target);
+            const detected = detectUserLanguage();
+            switchLanguage(detected);
         });
     </script>
 </body>
