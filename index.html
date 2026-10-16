@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trading Welcome Voucher | Partner Overview</title>
+    <title>Trading Style Assessment | 24/7 Markets</title>
     <style>
         :root {
             --primary: #ff444f;
             --primary-hover: #e0303b;
-            --bg: #0e0e12;
-            --card-bg: #181920;
-            --border: #292a34;
+            --bg: #0b0c10;
+            --card-bg: #16181f;
+            --border: #262934;
             --text-main: #ffffff;
-            --text-muted: #9aa0a6;
+            --text-muted: #8e95a5;
             --gold: #ffbe3b;
-            --green: #10b981;
+            --green: #00c087;
         }
 
         * {
@@ -32,466 +32,381 @@
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
-            padding: 16px;
+            padding: 15px;
             text-align: center;
         }
 
-        [dir="rtl"] { direction: rtl; }
-
         .container {
             width: 100%;
-            max-width: 460px;
+            max-width: 450px;
             margin: auto;
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 16px;
             padding: 24px 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            position: relative;
         }
 
-        .top-bar {
+        .header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            padding-bottom: 14px;
             border-bottom: 1px solid var(--border);
-            padding-bottom: 12px;
             margin-bottom: 18px;
         }
 
-        .logo-wrap {
+        .brand {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             font-weight: 800;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
+            letter-spacing: -0.3px;
         }
 
-        .logo-dot {
+        .brand-dot {
             width: 22px;
             height: 22px;
             background: var(--primary);
-            border-radius: 5px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 900;
             color: #fff;
         }
 
-        .lang-switch select {
-            background: #111217;
-            color: var(--text-main);
-            border: 1px solid var(--border);
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.78rem;
-            outline: none;
-            cursor: pointer;
+        .badge-live {
+            background: rgba(0, 192, 135, 0.12);
+            color: var(--green);
+            border: 1px solid rgba(0, 192, 135, 0.3);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
-        .progress-wrapper {
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--green);
+        }
+
+        .progress-box {
             width: 100%;
             height: 6px;
-            background: #252631;
+            background: #232634;
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             overflow: hidden;
         }
 
-        .progress-fill {
+        .progress-bar {
+            width: 25%;
             height: 100%;
-            width: 33%;
             background: var(--primary);
             transition: width 0.3s ease;
         }
 
         .step { display: none; }
-        .step.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        .step.active { display: block; animation: popIn 0.25s ease-out; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
         }
 
-        .step-tag {
+        .step-label {
             font-size: 0.75rem;
             color: var(--gold);
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
             margin-bottom: 8px;
         }
 
-        h2.question-title {
+        h2.title {
             font-size: 1.35rem;
             font-weight: 700;
-            margin-bottom: 14px;
             line-height: 1.3;
+            margin-bottom: 10px;
         }
 
-        p.question-sub {
+        p.desc {
             font-size: 0.88rem;
             color: var(--text-muted);
-            margin-bottom: 22px;
-            line-height: 1.4;
+            margin-bottom: 20px;
+            line-height: 1.45;
         }
 
-        .btn-group {
+        .options {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 11px;
         }
 
-        .opt-btn {
-            background: #21222c;
+        .btn-opt {
+            background: #1e202b;
             border: 1px solid var(--border);
             color: #ffffff;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
-            padding: 15px 18px;
+            padding: 14px 16px;
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             text-align: left;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
-        [dir="rtl"] .opt-btn { text-align: right; }
-
-        .opt-btn:hover {
+        .btn-opt:hover {
             border-color: var(--primary);
-            background: #292a37;
+            background: #272a39;
         }
 
-        .badge-verified {
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--green);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 5px 14px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            display: inline-block;
-            margin-bottom: 12px;
+        .loader-box {
+            display: none;
+            padding: 30px 10px;
         }
 
-        .promo-display {
-            background: #111217;
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 68, 79, 0.2);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 15px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .result-card {
+            background: #111219;
             border: 1px dashed var(--border);
-            border-radius: 10px;
-            padding: 12px;
+            border-radius: 12px;
+            padding: 16px;
             margin: 16px 0;
+            text-align: left;
+        }
+
+        .result-item {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            color: var(--text-muted);
         }
 
-        .promo-val {
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: var(--gold);
-            letter-spacing: 1px;
-        }
-
-        .copy-tag {
-            background: #2a2b36;
+        .result-item strong {
             color: #fff;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            cursor: pointer;
         }
 
-        .cta-submit {
+        .cta-btn {
             display: block;
             width: 100%;
             background: var(--primary);
             color: #fff;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 800;
             text-decoration: none;
             padding: 16px 0;
             border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(255, 68, 79, 0.4);
+            box-shadow: 0 8px 24px rgba(255, 68, 79, 0.35);
             border: none;
             cursor: pointer;
-            margin-top: 15px;
+            margin-top: 14px;
             transition: 0.2s;
         }
 
-        .cta-submit:hover {
+        .cta-btn:hover {
             background: var(--primary-hover);
         }
 
         footer {
             margin-top: 20px;
-            max-width: 460px;
             font-size: 0.72rem;
-            color: #666a72;
-            line-height: 1.5;
+            color: #555966;
+            max-width: 450px;
+            line-height: 1.4;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="top-bar">
-            <div class="logo-wrap">
-                <div class="logo-dot">d</div>
+        <div class="header">
+            <div class="brand">
+                <div class="brand-dot">d</div>
                 <span>deriv partner</span>
             </div>
-            <div class="lang-switch">
-                <select id="langSelect" onchange="switchLanguage(this.value)">
-                    <option value="en">English</option>
-                    <option value="ar">العربية (Arabic)</option>
-                    <option value="hi">हिन्दी (Hindi)</option>
-                    <option value="tl">Filipino (Tagalog)</option>
-                </select>
+            <div class="badge-live">
+                <span class="pulse-dot"></span> 24/7 Synthetics
             </div>
         </div>
 
-        <div class="progress-wrapper">
-            <div class="progress-fill" id="pFill"></div>
+        <div class="progress-box">
+            <div class="progress-bar" id="pBar"></div>
         </div>
 
-        <!-- Step 1 -->
+        <!-- Question 1 -->
         <div class="step active" id="step1">
-            <div class="step-tag" id="s1Tag">Step 1 of 2</div>
-            <h2 class="question-title" id="s1Title">Have you ever traded Forex or Financial Assets?</h2>
-            <p class="question-sub" id="s1Sub">Select your experience level to view the available partner promotion.</p>
-            <div class="btn-group">
-                <button class="opt-btn" onclick="nextStep(2)">
-                    <span id="opt1A">Yes, I have trading experience</span>
-                    <span>→</span>
+            <div class="step-label">Question 1 of 3</div>
+            <h2 class="title">When do you prefer to trade?</h2>
+            <p class="desc">Find the ideal market tailored to your daily schedule.</p>
+            <div class="options">
+                <button class="btn-opt" onclick="nextQuestion(2)">
+                    <span>Weekends & Evenings (24/7)</span> <span>→</span>
                 </button>
-                <button class="opt-btn" onclick="nextStep(2)">
-                    <span id="opt1B">No, I am a beginner</span>
-                    <span>→</span>
+                <button class="btn-opt" onclick="nextQuestion(2)">
+                    <span>Standard Weekday Hours</span> <span>→</span>
                 </button>
             </div>
         </div>
 
-        <!-- Step 2 -->
+        <!-- Question 2 -->
         <div class="step" id="step2">
-            <div class="step-tag" id="s2Tag">Step 2 of 2</div>
-            <h2 class="question-title" id="s2Title">Are you looking to get started with a $20 voucher?</h2>
-            <p class="question-sub" id="s2Sub">Available for eligible accounts via our official partner link.</p>
-            <div class="btn-group">
-                <button class="opt-btn" onclick="nextStep(3)">
-                    <span id="opt2A">Yes, show offer details</span>
-                    <span>→</span>
+            <div class="step-label">Question 2 of 3</div>
+            <h2 class="title">Which market interests you most?</h2>
+            <p class="desc">Select your preferred asset class to calculate recommended leverage.</p>
+            <div class="options">
+                <button class="btn-opt" onclick="nextQuestion(3)">
+                    <span>Boom & Crash / Volatility Indices</span> <span>→</span>
                 </button>
-                <button class="opt-btn" onclick="nextStep(3)">
-                    <span id="opt2B">Continue to registration</span>
-                    <span>→</span>
+                <button class="btn-opt" onclick="nextQuestion(3)">
+                    <span>Gold (XAU/USD) & Forex Pairs</span> <span>→</span>
+                </button>
+                <button class="btn-opt" onclick="nextQuestion(3)">
+                    <span>Cryptocurrencies (BTC, ETH)</span> <span>→</span>
                 </button>
             </div>
         </div>
 
-        <!-- Step 3 -->
+        <!-- Question 3 -->
         <div class="step" id="step3">
-            <div class="badge-verified" id="resBadge">✓ Offer Available</div>
-            <h2 class="question-title" id="resTitle">Welcome Voucher Overview</h2>
-            <p class="question-sub" id="resSub">Use the referral code below during signup on Deriv to claim your voucher.</p>
+            <div class="step-label">Question 3 of 3</div>
+            <h2 class="title">What is your starting capital strategy?</h2>
+            <p class="desc">Deriv provides free practice capital with instant zero-risk demo access.</p>
+            <div class="options">
+                <button class="btn-opt" onclick="startCalculating()">
+                    <span>Start Risk-Free with $10,000 Demo</span> <span>→</span>
+                </button>
+                <button class="btn-opt" onclick="startCalculating()">
+                    <span>Micro-Deposits from $5+</span> <span>→</span>
+                </button>
+            </div>
+        </div>
 
-            <div class="promo-display">
-                <span style="font-size:0.75rem; color:var(--text-muted);" id="promoHead">REFERRAL CODE</span>
-                <span class="promo-val">DH54ZEQFYZH5</span>
-                <span class="copy-tag" onclick="manualCopy(this)">Copy</span>
+        <!-- Calculating State (Building Suspense & Filtering Bots) -->
+        <div class="loader-box" id="loaderBox">
+            <div class="spinner"></div>
+            <h3>Analyzing Your Trader Profile...</h3>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-top:8px;">Matching optimal server and zero-spread asset list.</p>
+        </div>
+
+        <!-- Final Result Screen -->
+        <div class="step" id="stepFinal">
+            <div style="color:var(--green); font-size:0.82rem; font-weight:700; margin-bottom:6px;">✓ PROFILE MATCH COMPLETE</div>
+            <h2 class="title">Account Setup Ready</h2>
+            <p class="desc">Your access has been matched to 24/7 Synthetic and Forex markets.</p>
+
+            <div class="result-card">
+                <div class="result-item"><span>Practice Account:</span> <strong>$10,000 Virtual Funds</strong></div>
+                <div class="result-item"><span>Available Assets:</span> <strong>Synthetics, Gold, Forex</strong></div>
+                <div class="result-item"><span>Trading Hours:</span> <strong>24 Hours / 7 Days a Week</strong></div>
+                <div class="result-item"><span>Partner Code:</span> <strong style="color:var(--gold);">DH54ZEQFYZH5</strong></div>
             </div>
 
-            <a href="https://t.deriv.link?t=NEGTK7BHFWUG" class="cta-submit" id="submitCta" onclick="handleFinalRedirect(event)">
-                Continue to Official Site →
+            <a href="https://t.deriv.link?t=NEGTK7BHFWUG" class="cta-btn" id="finalCta" onclick="handleConversion(event)">
+                Open Free Account & Trade →
             </a>
         </div>
     </div>
 
     <footer>
-        <p>Independent Introducing Broker | Powered by Deriv API</p>
-        <p id="riskText" style="margin-top: 4px;">Risk Warning: Trading derivatives involves risk of capital loss. Promotion terms and conditions apply.</p>
+        <p>Deriv Introducing Broker Partner | Powered by Deriv</p>
+        <p style="margin-top:4px;">Risk Warning: Financial trading involves substantial risk of loss. Deriv offers complex derivatives not suitable for all investors.</p>
     </footer>
 
     <script>
-        const ACTIVE_REF_CODE = "DH54ZEQFYZH5";
+        const REF_CODE = "DH54ZEQFYZH5";
         const BASE_AFFILIATE_URL = "https://t.deriv.link?t=NEGTK7BHFWUG";
         const PA_AID = "246772";
         const PA_TID = "63885";
 
-        let detectedBrowserLang = "en";
-        let finalAffiliateUrl = BASE_AFFILIATE_URL;
+        let finalUrl = BASE_AFFILIATE_URL;
 
-        function detectUserLanguage() {
-            const rawLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
-            if (rawLang.startsWith('ar')) return 'ar';
-            if (rawLang.startsWith('hi') || rawLang.startsWith('ur')) return 'hi';
-            if (rawLang.startsWith('tl') || rawLang.startsWith('fil')) return 'tl';
-            return 'en';
-        }
+        function initTracking() {
+            const params = new URLSearchParams(window.location.search);
+            const visitorId = params.get('visitor_id') || params.get('clickid') || params.get('subid') || "";
+            const zoneId = params.get('zone_id') || params.get('zoneid') || "";
+            const rawLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase().split('-')[0];
 
-        function updateTrackingLinks() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const visitorId = urlParams.get('visitor_id') || urlParams.get('clickid') || urlParams.get('subid') || "";
-            const zoneId = urlParams.get('zone_id') || urlParams.get('zoneid') || "";
-
-            if (visitorId) sessionStorage.setItem('pa_visitor_id', visitorId);
+            if (visitorId) sessionStorage.setItem('v_id', visitorId);
 
             const target = new URL(BASE_AFFILIATE_URL);
             if (visitorId) target.searchParams.set('sub_id', visitorId);
             if (zoneId) target.searchParams.set('sub_id2', zoneId);
-            target.searchParams.set('sub_id3', 'lang_' + detectedBrowserLang);
+            target.searchParams.set('sub_id3', 'quiz_' + rawLang);
 
-            urlParams.forEach((val, key) => {
+            params.forEach((val, key) => {
                 if (!['t', 'sub_id', 'sub_id2', 'sub_id3'].includes(key)) {
                     target.searchParams.set(key, val);
                 }
             });
 
-            finalAffiliateUrl = target.toString();
-            const linkElem = document.getElementById('submitCta');
-            if (linkElem) linkElem.href = finalAffiliateUrl;
+            finalUrl = target.toString();
+            const btn = document.getElementById('finalCta');
+            if (btn) btn.href = finalUrl;
         }
 
-        function nextStep(stepNum) {
+        function nextQuestion(qNum) {
             document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-            document.getElementById('step' + stepNum).classList.add('active');
+            document.getElementById('step' + qNum).classList.add('active');
 
-            const pFill = document.getElementById('pFill');
-            if (stepNum === 2) pFill.style.width = '66%';
-            if (stepNum === 3) pFill.style.width = '100%';
+            const pBar = document.getElementById('pBar');
+            if (qNum === 2) pBar.style.width = '50%';
+            if (qNum === 3) pBar.style.width = '75%';
         }
 
-        function manualCopy(elem) {
+        function startCalculating() {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById('loaderBox').style.display = 'block';
+            document.getElementById('pBar').style.width = '90%';
+
+            setTimeout(() => {
+                document.getElementById('loaderBox').style.display = 'none';
+                document.getElementById('stepFinal').classList.add('active');
+                document.getElementById('pBar').style.width = '100%';
+            }, 1200);
+        }
+
+        function handleConversion(e) {
             if (navigator.clipboard) {
-                navigator.clipboard.writeText(ACTIVE_REF_CODE);
-                elem.innerText = 'Copied!';
-                setTimeout(() => elem.innerText = 'Copy', 2000);
+                navigator.clipboard.writeText(REF_CODE).catch(() => {});
             }
-        }
 
-        function handleFinalRedirect(e) {
-            const visitorId = sessionStorage.getItem('pa_visitor_id') || new URLSearchParams(window.location.search).get('visitor_id');
+            const visitorId = sessionStorage.getItem('v_id') || new URLSearchParams(window.location.search).get('visitor_id');
             if (visitorId) {
                 const img = new Image();
                 img.src = `https://ad.propellerads.com/conversion.php?aid=${PA_AID}&pid=&tid=${PA_TID}&visitor_id=${encodeURIComponent(visitorId)}&payout=0`;
             }
         }
 
-        const translations = {
-            en: {
-                dir: 'ltr',
-                s1Tag: 'Step 1 of 2',
-                s1Title: 'Have you ever traded Forex or Financial Assets?',
-                s1Sub: 'Select your experience level to view the available partner promotion.',
-                opt1A: 'Yes, I have trading experience',
-                opt1B: 'No, I am a beginner',
-                s2Tag: 'Step 2 of 2',
-                s2Title: 'Are you looking to get started with a $20 voucher?',
-                s2Sub: 'Available for eligible accounts via our official partner link.',
-                opt2A: 'Yes, show offer details',
-                opt2B: 'Continue to registration',
-                resBadge: '✓ Offer Available',
-                resTitle: 'Welcome Voucher Overview',
-                resSub: 'Use the referral code below during signup on Deriv to claim your voucher.',
-                promoHead: 'REFERRAL CODE',
-                submitCta: 'Continue to Official Site →',
-                riskText: 'Risk Warning: Trading derivatives involves risk of capital loss. Promotion terms apply.'
-            },
-            ar: {
-                dir: 'rtl',
-                s1Tag: 'الخطوة 1 من 2',
-                s1Title: 'هل لديك خبرة سابقة في التداول بالأسواق المالية؟',
-                s1Sub: 'حدد مستوى خبرتك للاطلاع على العرض الترويجي للشريك.',
-                opt1A: 'نعم، لدي خبرة في التداول',
-                opt1B: 'لا، أنا مبتدئ تماماً',
-                s2Tag: 'الخطوة 2 من 2',
-                s2Title: 'هل ترغب في البدء بقسيمة ترحيبية 20$؟',
-                s2Sub: 'متاح للحسابات المؤهلة عبر رابط الشريك المعتمد.',
-                opt2A: 'نعم، عرض التفاصيل',
-                opt2B: 'المتابعة إلى التسجيل',
-                resBadge: '✓ العرض متاح لك',
-                resTitle: 'نظرة عامة على القسيمة الترحيبية',
-                resSub: 'استخدم كود الإحالة أدناه عند إنشاء الحساب على منصة Deriv.',
-                promoHead: 'كود الإحالة الرسمي',
-                submitCta: 'المتابعة للموقع الرسمي ←',
-                riskText: 'تحذير المخاطر: ينطوي تداول المشتقات على مخاطر خسارة رأس المال.'
-            },
-            hi: {
-                dir: 'ltr',
-                s1Tag: 'चरण 1 / 2',
-                s1Title: 'क्या आपके पास वित्तीय ट्रेडिंग का अनुभव है?',
-                s1Sub: 'उपलब्ध पार्टनर प्रमोशन देखने के लिए अपना अनुभव चुनें।',
-                opt1A: 'हाँ, मुझे ट्रेडिंग अनुभव है',
-                opt1B: 'नहीं, मैं शुरुआत कर रहा हूँ',
-                s2Tag: 'चरण 2 / 2',
-                s2Title: 'क्या आप $20 वेलकम वाउचर के साथ शुरुआत करना चाहते हैं?',
-                s2Sub: 'पात्र खातों के लिए आधिकारिक पार्टनर लिंक के माध्यम से उपलब्ध।',
-                opt2A: 'हाँ, ऑफर विवरण दिखाएं',
-                opt2B: 'पंजीकरण जारी रखें',
-                resBadge: '✓ ऑफर उपलब्ध है',
-                resTitle: 'वेलकम वाउचर विवरण',
-                resSub: 'वाउचर प्राप्त करने के लिए Deriv पर साइन अप के दौरान रेफरल कोड का उपयोग करें।',
-                promoHead: 'रेफरل कोड',
-                submitCta: 'आधिकारिक साइट पर जाएं →',
-                riskText: 'जोखिम चेतावनी: डेरिवेटिव ट्रेडिंग में पूंजी हानि का जोखिम होता है।'
-            },
-            tl: {
-                dir: 'ltr',
-                s1Tag: 'Hakbang 1 ng 2',
-                s1Title: 'May karanasan ka ba sa Financial Trading?',
-                s1Sub: 'Piliin ang iyong antas upang makita ang partner promo.',
-                opt1A: 'Oo, may karanasan ako',
-                opt1B: 'Hindi, baguhan lamang ako',
-                s2Tag: 'Hakbang 2 ng 2',
-                s2Title: 'Nais mo bang magsimula gamit ang $20 voucher?',
-                s2Sub: 'Para sa mga bagong eligible accounts.',
-                opt2A: 'Oo, ipakita ang detalye',
-                opt2B: 'Magpatuloy sa registration',
-                resBadge: '✓ Kwalipikado ang Account',
-                resTitle: 'Welcome Voucher Overview',
-                resSub: 'Gamitin ang referral code sa ibaba sa iyong pag-sign up sa Deriv.',
-                promoHead: 'REFERRAL CODE',
-                submitCta: 'Pumunta sa Opisyal na Website →',
-                riskText: 'Babala sa Panganib: Ang trading ay may panganib sa kapital.'
-            }
-        };
-
-        function switchLanguage(lang) {
-            detectedBrowserLang = lang;
-            const data = translations[lang] || translations.en;
-
-            document.documentElement.setAttribute('dir', data.dir);
-            document.documentElement.setAttribute('lang', lang);
-
-            document.getElementById('s1Tag').innerText = data.s1Tag;
-            document.getElementById('s1Title').innerText = data.s1Title;
-            document.getElementById('s1Sub').innerText = data.s1Sub;
-            document.getElementById('opt1A').innerText = data.opt1A;
-            document.getElementById('opt1B').innerText = data.opt1B;
-
-            document.getElementById('s2Tag').innerText = data.s2Tag;
-            document.getElementById('s2Title').innerText = data.s2Title;
-            document.getElementById('s2Sub').innerText = data.s2Sub;
-            document.getElementById('opt2A').innerText = data.opt2A;
-            document.getElementById('opt2B').innerText = data.opt2B;
-
-            document.getElementById('resBadge').innerText = data.resBadge;
-            document.getElementById('resTitle').innerText = data.resTitle;
-            document.getElementById('resSub').innerText = data.resSub;
-            document.getElementById('promoHead').innerText = data.promoHead;
-            document.getElementById('submitCta').innerText = data.submitCta;
-            document.getElementById('riskText').innerText = data.riskText;
-            document.getElementById('langSelect').value = lang;
-
-            updateTrackingLinks();
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const detected = detectUserLanguage();
-            switchLanguage(detected);
-        });
+        window.addEventListener('DOMContentLoaded', initTracking);
     </script>
 </body>
 </html>
