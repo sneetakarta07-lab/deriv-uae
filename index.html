@@ -100,7 +100,6 @@
             line-height: 1.45;
         }
 
-        /* Lead Form */
         .lead-form {
             display: flex;
             flex-direction: column;
@@ -173,7 +172,6 @@
             font-weight: bold;
         }
 
-        /* Loading / Success Overlay */
         .status-box {
             display: none;
             padding: 30px 10px;
@@ -206,7 +204,6 @@
 <body>
 
     <div class="card">
-        <!-- Logo -->
         <div class="brand-header">
             <div class="brand-icon">d</div>
             <span>deriv partner</span>
@@ -217,7 +214,7 @@
         <div id="formSection">
             <h1>Claim <span>$10,000</span> Virtual Funds & Signals</h1>
             <p class="sub-desc">
-                Register your details below to receive free synthetic/forex setups and practice account access.
+                Enter your details below to receive free synthetic/forex setups and practice account access.
             </p>
 
             <form class="lead-form" id="leadForm" onsubmit="handleFormSubmit(event)">
@@ -248,7 +245,6 @@
             </div>
         </div>
 
-        <!-- Success/Redirecting Screen -->
         <div class="status-box" id="statusBox">
             <div class="spinner"></div>
             <h2 style="font-size:1.2rem; margin-bottom:8px;">Details Received!</h2>
@@ -264,10 +260,8 @@
     </footer>
 
     <script>
-        // -------------------------------------------------------------
-        // یہاں اپنا گوگل شیٹ والا Web App URL پیسٹ کریں:
+        // آپ کا تصدیق شدہ گوگل ایپس اسکرپٹ ویب ہک URL
         const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxuGXtscceB7pGAVzMbjdVNtfH3_kpXp-QsOCpwdSMBCZIvfW9W5Fzy4k-0uM4hYDay/exec";
-        // -------------------------------------------------------------
 
         const ACTIVE_REF_CODE = "DH54ZEQFYZH5";
         const BASE_AFFILIATE_URL = "https://t.deriv.link?t=NEGTK7BHFWUG";
@@ -296,7 +290,7 @@
 
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
-            submitBtn.innerText = "Processing...";
+            submitBtn.innerText = "Saving Details...";
 
             const name = document.getElementById('userName').value.trim();
             const whatsapp = document.getElementById('userWhatsApp').value.trim();
@@ -305,50 +299,53 @@
             const vid = trackedData.visitor_id || sessionStorage.getItem('lead_vid') || "";
             const zid = trackedData.zone_id || sessionStorage.getItem('lead_zid') || "";
 
-            const payload = {
-                name: name,
-                whatsapp: whatsapp,
-                email: email,
-                country: trackedData.country,
-                zone_id: zid,
-                visitor_id: vid
-            };
+            // ڈیٹا کو URLSearchParams فارمیٹ میں تیار کیا تاکہ Apps Script فوراً وصول کرے
+            const postParams = new URLSearchParams();
+            postParams.append('name', name);
+            postParams.append('whatsapp', whatsapp);
+            postParams.append('email', email);
+            postParams.append('country', trackedData.country);
+            postParams.append('zone_id', zid);
+            postParams.append('visitor_id', vid);
 
-            // گوگل شیٹ میں بیک گراؤنڈ میں ڈیٹا محفوظ کریں
-            if (GOOGLE_SHEET_WEBHOOK_URL && !GOOGLE_SHEET_WEBHOOK_URL.includes("YOUR_GOOGLE")) {
-                fetch(GOOGLE_SHEET_WEBHOOK_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                }).catch(() => {});
-            }
-
-            // پروپیلر ایڈز کو پوسٹ بیک فائر کریں (Real Valid Conversion)
+            // PropellerAds پوسٹ بیک ٹریگر
             if (vid) {
                 const img = new Image();
                 img.src = `https://ad.propellerads.com/conversion.php?aid=${PA_AID}&pid=&tid=${PA_TID}&visitor_id=${encodeURIComponent(vid)}&payout=0`;
             }
 
-            // کلپ بورڈ میں ریفرل کوڈ کاپی کریں
+            // ریفرل کوڈ کلپ بورڈ میں کاپی
             if (navigator.clipboard) {
                 navigator.clipboard.writeText(ACTIVE_REF_CODE).catch(() => {});
             }
 
-            // فارم چھپا کر ری ڈائریکٹ میسج دکھائیں
+            // گوگل شیٹ میں ڈیٹا بھیجنا
+            try {
+                await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: postParams.toString()
+                });
+            } catch(err) {
+                console.log("Transmission log:", err);
+            }
+
+            // اسکرین بدل کر ری ڈائریکشن میسج دکھانا
             document.getElementById('formSection').style.display = 'none';
             document.getElementById('statusBox').style.display = 'block';
 
-            // Deriv Affiliate Link تیار کریں
             const target = new URL(BASE_AFFILIATE_URL);
             if (vid) target.searchParams.set('sub_id', vid);
             if (zid) target.searchParams.set('sub_id2', zid);
-            target.searchParams.set('sub_id3', 'lead_form');
+            target.searchParams.set('sub_id3', 'lead_gen');
 
-            // 1.5 سیکنڈ کے بعد یوزر کو Deriv کے رجسٹریشن پیج پر بھیج دیں
+            // 2 سیکنڈ کا توقف تاکہ گوگل شیٹ میں ڈیٹا مکمل رائٹ ہو جائے
             setTimeout(() => {
                 window.location.href = target.toString();
-            }, 1500);
+            }, 2000);
         }
 
         window.addEventListener('DOMContentLoaded', initTracking);
