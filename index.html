@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Claim $20 Welcome Bonus | Deriv Partner</title>
+    <title>Check Eligibility: $20 Trading Bonus | Deriv</title>
     <style>
         :root {
-            --deriv-red: #ff444f;
-            --deriv-red-hover: #e0303b;
+            --primary: #ff444f;
+            --primary-hover: #e0303b;
             --bg: #0e0e12;
             --card-bg: #181920;
             --border: #292a34;
             --text-main: #ffffff;
             --text-muted: #9aa0a6;
             --gold: #ffbe3b;
+            --green: #10b981;
         }
 
         * {
@@ -31,7 +32,7 @@
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
+            padding: 16px;
             text-align: center;
         }
 
@@ -41,42 +42,43 @@
 
         .container {
             width: 100%;
-            max-width: 480px;
+            max-width: 460px;
             margin: auto;
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 28px 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            padding: 24px 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            position: relative;
         }
 
-        .brand-header {
+        /* Top Header */
+        .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
             border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+            margin-bottom: 18px;
         }
 
         .logo-wrap {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             font-weight: 800;
-            font-size: 1.25rem;
-            letter-spacing: -0.5px;
+            font-size: 1.15rem;
         }
 
-        .logo-icon {
-            width: 28px;
-            height: 28px;
-            background: var(--deriv-red);
-            border-radius: 6px;
+        .logo-dot {
+            width: 22px;
+            height: 22px;
+            background: var(--primary);
+            border-radius: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             font-weight: 900;
             color: #fff;
         }
@@ -85,161 +87,174 @@
             background: #111217;
             color: var(--text-main);
             border: 1px solid var(--border);
-            padding: 5px 10px;
+            padding: 4px 8px;
             border-radius: 6px;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             outline: none;
             cursor: pointer;
         }
 
-        .badge {
-            display: inline-block;
-            background: rgba(255, 68, 79, 0.12);
-            color: var(--deriv-red);
-            border: 1px solid rgba(255, 68, 79, 0.3);
-            padding: 5px 14px;
-            border-radius: 30px;
-            font-size: 0.78rem;
+        /* Progress Bar */
+        .progress-wrapper {
+            width: 100%;
+            height: 6px;
+            background: #252631;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 33%;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        /* Step Card Elements */
+        .step {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-tag {
+            font-size: 0.75rem;
+            color: var(--gold);
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
         }
 
-        h1 {
-            font-size: 1.65rem;
-            font-weight: 800;
-            line-height: 1.25;
-            margin-bottom: 12px;
+        h2.question-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            line-height: 1.3;
         }
 
-        h1 span {
-            color: var(--gold);
-        }
-
-        p.sub-desc {
-            font-size: 0.92rem;
+        p.question-sub {
+            font-size: 0.88rem;
             color: var(--text-muted);
-            line-height: 1.45;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
+            line-height: 1.4;
         }
 
-        .promo-box {
-            background: #111217;
-            border: 1px dashed var(--border);
+        /* Option Buttons */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .opt-btn {
+            background: #21222c;
+            border: 1px solid var(--border);
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 15px 18px;
             border-radius: 10px;
-            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
         }
 
-        .promo-text {
-            text-align: left;
-        }
-
-        [dir="rtl"] .promo-text {
+        [dir="rtl"] .opt-btn {
             text-align: right;
         }
 
-        .promo-label {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-weight: 600;
+        .opt-btn:hover {
+            border-color: var(--primary);
+            background: #292a37;
         }
 
-        .promo-code {
+        .opt-btn span.arrow {
+            color: var(--text-muted);
+            font-weight: bold;
+        }
+
+        /* Final Claim Screen */
+        .badge-verified {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--green);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .promo-display {
+            background: #111217;
+            border: 1px dashed var(--border);
+            border-radius: 10px;
+            padding: 12px;
+            margin: 16px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .promo-val {
             font-size: 1.15rem;
             font-weight: 800;
             color: var(--gold);
             letter-spacing: 1px;
         }
 
-        .copy-btn {
-            background: rgba(255, 255, 255, 0.1);
+        .cta-submit {
+            display: block;
+            width: 100%;
+            background: var(--primary);
             color: #fff;
+            font-size: 1.1rem;
+            font-weight: 800;
+            text-decoration: none;
+            padding: 16px 0;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(255, 68, 79, 0.4);
             border: none;
-            padding: 7px 14px;
-            border-radius: 6px;
-            font-size: 0.78rem;
-            font-weight: 600;
             cursor: pointer;
+            margin-top: 15px;
             transition: 0.2s;
         }
 
-        .copy-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .perks-list {
-            list-style: none;
-            margin-bottom: 22px;
-            text-align: left;
-        }
-
-        [dir="rtl"] .perks-list {
-            text-align: right;
-        }
-
-        .perks-list li {
-            font-size: 0.85rem;
-            color: #cfd3d8;
-            margin-bottom: 9px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .perks-list li span.check {
-            color: #10b981;
-            font-weight: 900;
-            font-size: 0.95rem;
-        }
-
-        .cta-btn {
-            display: block;
-            width: 100%;
-            background: var(--deriv-red);
-            color: #ffffff;
-            font-size: 1.05rem;
-            font-weight: 700;
-            text-decoration: none;
-            padding: 15px 0;
-            border-radius: 10px;
-            box-shadow: 0 8px 20px rgba(255, 68, 79, 0.35);
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .cta-btn:hover {
-            background: var(--deriv-red-hover);
+        .cta-submit:hover {
+            background: var(--primary-hover);
             transform: translateY(-2px);
         }
 
         footer {
-            margin-top: 25px;
-            max-width: 480px;
+            margin-top: 20px;
+            max-width: 460px;
             font-size: 0.72rem;
             color: #666a72;
             line-height: 1.5;
-        }
-
-        .partner-tag {
-            font-weight: 600;
-            color: #888d96;
-            margin-bottom: 6px;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="brand-header">
+        <!-- Top Navigation -->
+        <div class="top-bar">
             <div class="logo-wrap">
-                <div class="logo-icon">d</div>
+                <div class="logo-dot">d</div>
                 <span>deriv</span>
             </div>
             <div class="lang-switch">
@@ -252,38 +267,66 @@
             </div>
         </div>
 
-        <div class="badge" id="badgeText">Verified Partner Promotion</div>
-
-        <h1 id="mainHeading">Get <span class="highlight">$20 Free Bonus</span> on Your First Trade</h1>
-        
-        <p class="sub-desc" id="subHeading">
-            Create your account today, enter the official referral code below, and unlock your $20 First Time Trade bonus.
-        </p>
-
-        <!-- Referral Box: Fixed with DH54ZEQFYZH5 -->
-        <div class="promo-box">
-            <div class="promo-text">
-                <div class="promo-label" id="codeLabel">Referral Code</div>
-                <div class="promo-code" id="refCodeVal">DH54ZEQFYZH5</div>
-            </div>
-            <button class="copy-btn" id="copyBtn" onclick="copyCode()">Copy</button>
+        <!-- Progress Indicator -->
+        <div class="progress-wrapper">
+            <div class="progress-fill" id="pFill"></div>
         </div>
 
-        <ul class="perks-list">
-            <li><span class="check">✓</span> <span id="feat1">Exclusive $20 FTT Bonus credited on first trade</span></li>
-            <li><span class="check">✓</span> <span id="feat2">Trade Synthetics, Forex & Cryptos 24/7</span></li>
-            <li><span class="check">✓</span> <span id="feat3">Instant deposit & fast local withdrawals</span></li>
-        </ul>
+        <!-- Step 1: Experience Qualifier -->
+        <div class="step active" id="step1">
+            <div class="step-tag" id="s1Tag">Step 1 of 2</div>
+            <h2 class="question-title" id="s1Title">Have you ever traded Forex, Gold, or Synthetics?</h2>
+            <p class="question-sub" id="s1Sub">Select your trading experience level to qualify for the $20 welcome voucher.</p>
+            <div class="btn-group">
+                <button class="opt-btn" onclick="nextStep(2)">
+                    <span id="opt1A">Yes, I have trading experience</span>
+                    <span class="arrow">→</span>
+                </button>
+                <button class="opt-btn" onclick="nextStep(2)">
+                    <span id="opt1B">No, I am a beginner</span>
+                    <span class="arrow">→</span>
+                </button>
+            </div>
+        </div>
 
-        <a href="https://t.deriv.link?t=NEGTK7BHFWUG" id="ctaBtn" class="cta-btn" onclick="handleCtaClick(event)">
-            Claim $20 Bonus Now
-        </a>
+        <!-- Step 2: Risk / Intent Qualifier -->
+        <div class="step" id="step2">
+            <div class="step-tag" id="s2Tag">Step 2 of 2</div>
+            <h2 class="question-title" id="s2Title">Are you residing in the UAE and ready to start with a $20 Bonus?</h2>
+            <p class="question-sub" id="s2Sub">This promotion is reserved exclusively for verified first-time traders.</p>
+            <div class="btn-group">
+                <button class="opt-btn" onclick="nextStep(3)">
+                    <span id="opt2A">Yes, unlock my $20 Bonus</span>
+                    <span class="arrow">→</span>
+                </button>
+                <button class="opt-btn" onclick="nextStep(3)">
+                    <span id="opt2B">Yes, show sign-up details</span>
+                    <span class="arrow">→</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 3: Qualified Result & Direct CTA -->
+        <div class="step" id="step3">
+            <div class="badge-verified" id="resBadge">✓ You are Eligible!</div>
+            <h2 class="question-title" id="resTitle">Your $20 Welcome Bonus is Reserved</h2>
+            <p class="question-sub" id="resSub">Click below to open your Deriv account. Your partner referral code is ready to apply.</p>
+
+            <div class="promo-display">
+                <span style="font-size:0.75rem; color:var(--text-muted);" id="promoHead">REFERRAL CODE</span>
+                <span class="promo-val" id="refCodeText">DH54ZEQFYZH5</span>
+            </div>
+
+            <button class="cta-submit" id="submitCta" onclick="handleFinalRedirect()">
+                Claim $20 Bonus & Register →
+            </button>
+        </div>
     </div>
 
     <footer>
-        <div class="partner-tag">Independent Introducing Broker | Powered by Deriv</div>
-        <p id="riskWarning">
-            Risk Warning: Financial trading involves substantial risk of losing invested capital. Terms and conditions apply for the First Time Trade ($20) Promotion.
+        <p>Independent Introducing Broker | Powered by Deriv API</p>
+        <p id="riskText" style="margin-top: 4px;">
+            Risk Warning: Trading derivatives involves risk of capital loss. Promotion terms apply.
         </p>
     </footer>
 
@@ -303,55 +346,56 @@
 
         function initTracking() {
             const urlParams = new URLSearchParams(window.location.search);
-            const collectedData = {};
+            const collected = {};
 
             TRACKING_KEYS.forEach(key => {
                 const val = urlParams.get(key);
                 if (val) {
-                    collectedData[key] = val;
-                    sessionStorage.setItem('tracker_' + key, val);
+                    collected[key] = val;
+                    sessionStorage.setItem('t_' + key, val);
                 } else {
-                    const savedVal = sessionStorage.getItem('tracker_' + key);
-                    if (savedVal) collectedData[key] = savedVal;
+                    const saved = sessionStorage.getItem('t_' + key);
+                    if (saved) collected[key] = saved;
                 }
             });
 
-            const targetUrl = new URL(BASE_AFFILIATE_URL);
-
-            if (collectedData['clickid']) {
-                targetUrl.searchParams.set('sub_id', collectedData['clickid']);
-            }
-            if (collectedData['zoneid']) {
-                targetUrl.searchParams.set('sub_id2', collectedData['zoneid']);
-            }
-            if (collectedData['campaignid']) {
-                targetUrl.searchParams.set('sub_id3', collectedData['campaignid']);
-            }
+            const target = new URL(BASE_AFFILIATE_URL);
+            if (collected['clickid']) target.searchParams.set('sub_id', collected['clickid']);
+            if (collected['zoneid']) target.searchParams.set('sub_id2', collected['zoneid']);
+            if (collected['campaignid']) target.searchParams.set('sub_id3', collected['campaignid']);
 
             urlParams.forEach((val, key) => {
                 if (!['t', 'sub_id', 'sub_id2', 'sub_id3'].includes(key)) {
-                    targetUrl.searchParams.set(key, val);
+                    target.searchParams.set(key, val);
                 }
             });
 
-            finalAffiliateUrl = targetUrl.toString();
-            document.getElementById('ctaBtn').href = finalAffiliateUrl;
-            document.getElementById('refCodeVal').innerText = ACTIVE_REF_CODE;
+            finalAffiliateUrl = target.toString();
         }
 
-        function handleCtaClick(event) {
-            event.preventDefault();
+        function nextStep(stepNum) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById('step' + stepNum).classList.add('active');
 
-            const clickId = sessionStorage.getItem('tracker_clickid') || new URLSearchParams(window.location.search).get('clickid');
+            const pFill = document.getElementById('pFill');
+            if (stepNum === 2) pFill.style.width = '66%';
+            if (stepNum === 3) pFill.style.width = '100%';
+        }
+
+        // کوئز مکمل کرنے کے بعد ہی پوسٹ بیک اور ریفرل ری ڈائریکٹ فائر ہوگا
+        function handleFinalRedirect() {
+            // آٹو کاپی ریفرل کوڈ
+            navigator.clipboard.writeText(ACTIVE_REF_CODE).catch(() => {});
+
+            const clickId = sessionStorage.getItem('t_clickid') || new URLSearchParams(window.location.search).get('clickid');
 
             if (clickId) {
-                const postbackUrl = `${POSTBACK_BASE_URL}&clickid=${encodeURIComponent(clickId)}&payout=${encodeURIComponent(DEFAULT_PAYOUT)}`;
-
+                const pbUrl = `${POSTBACK_BASE_URL}&clickid=${encodeURIComponent(clickId)}&payout=${encodeURIComponent(DEFAULT_PAYOUT)}`;
                 if (navigator.sendBeacon) {
-                    navigator.sendBeacon(postbackUrl);
+                    navigator.sendBeacon(pbUrl);
                 } else {
                     const img = new Image();
-                    img.src = postbackUrl;
+                    img.src = pbUrl;
                 }
             }
 
@@ -361,80 +405,106 @@
         const translations = {
             en: {
                 dir: 'ltr',
-                badgeText: 'Verified Partner Promotion',
-                mainHeading: 'Get <span class="highlight">$20 Free Bonus</span> on Your First Trade',
-                subHeading: 'Create your account today, enter the official referral code below, and unlock your $20 First Time Trade bonus.',
-                codeLabel: 'Referral Code',
-                copyBtn: 'Copy',
-                copiedText: 'Copied!',
-                feat1: 'Exclusive $20 FTT Bonus credited on first trade',
-                feat2: 'Trade Synthetics, Forex & Cryptos 24/7',
-                feat3: 'Instant deposit & fast local withdrawals',
-                ctaBtn: 'Claim $20 Bonus Now',
-                riskWarning: 'Risk Warning: Financial trading involves substantial risk of losing invested capital. Terms and conditions apply for the First Time Trade ($20) Promotion.'
+                s1Tag: 'Step 1 of 2',
+                s1Title: 'Have you ever traded Forex, Gold, or Synthetics?',
+                s1Sub: 'Select your experience level to qualify for the $20 welcome voucher.',
+                opt1A: 'Yes, I have trading experience',
+                opt1B: 'No, I am a beginner',
+                s2Tag: 'Step 2 of 2',
+                s2Title: 'Are you residing in the UAE and ready to trade?',
+                s2Sub: 'This promotion is reserved exclusively for verified first-time traders.',
+                opt2A: 'Yes, unlock my $20 Bonus',
+                opt2B: 'Yes, show sign-up details',
+                resBadge: '✓ You are Eligible!',
+                resTitle: 'Your $20 Welcome Bonus is Reserved',
+                resSub: 'Click below to register on Deriv. Promo code will be copied automatically.',
+                promoHead: 'REFERRAL CODE',
+                submitCta: 'Claim $20 Bonus & Register →',
+                riskText: 'Risk Warning: Trading derivatives involves risk of capital loss. Promotion terms apply.'
             },
             ar: {
                 dir: 'rtl',
-                badgeText: 'عرض الشريك المعتمد',
-                mainHeading: 'احصل على <span class="highlight">بونص 20$ مجاني</span> مع أول صفقة تداول',
-                subHeading: 'أنشئ حسابك اليوم، واستخدم كود الإحالة الرسمي أدناه، واحصل على مكافأة التداول الأول بقيمة 20 دولار.',
-                codeLabel: 'كود الإحالة',
-                copyBtn: 'نسخ',
-                copiedText: 'تم النسخ!',
-                feat1: 'بونص حصري 20 دولار عند تنفيذ أول صفقة',
-                feat2: 'تداول المؤشرات المصطنعة والفوركس على مدار الساعة',
-                feat3: 'إيداع فوري وسحب محلي سريع',
-                ctaBtn: 'احصل على بونص 20$ الآن',
-                riskWarning: 'تحذير من المخاطر: ينطوي التداول المالي على مخاطر عالية لخسارة رأس المال. تطبق الشروط والأحكام الخاصة ببونص التداول الأول ($20).'
+                s1Tag: 'الخطوة 1 من 2',
+                s1Title: 'هل سبق لك تداول الفوركس، الذهب، أو المؤشرات؟',
+                s1Sub: 'حدد مستوى خبرتك في التداول للتأهل للحصول على قسيمة الـ 20 دولار.',
+                opt1A: 'نعم، لدي خبرة في التداول',
+                opt1B: 'لا، أنا مبتدئ تماماً',
+                s2Tag: 'الخطوة 2 من 2',
+                s2Title: 'هل أنت متواجد في الإمارات ومستعد للبدء؟',
+                s2Sub: 'هذا العرض الترويجي مخصص حصرياً للمتداولين الجدد.',
+                opt2A: 'نعم، قم بتفعيل بونص 20$',
+                opt2B: 'نعم، أظهر خطوات التسجيل',
+                resBadge: '✓ أنت مؤهل للحصول على البونص!',
+                resTitle: 'تم حجز بونص الترحيب بقيمة 20 دولار',
+                resSub: 'اضغط بالأسفل لإنشاء حسابك على Deriv. سيتم نسخ كود الإحالة تلقائياً.',
+                promoHead: 'كود الإحالة الرسمي',
+                submitCta: 'احصل على 20$ وسجل الآن ←',
+                riskText: 'تحذير المخاطر: ينطوي تداول المشتقات على مخاطر خسارة رأس المال.'
             },
             hi: {
                 dir: 'ltr',
-                badgeText: 'सत्यापित पार्टनर प्रमोशन',
-                mainHeading: 'अपने पहले ट्रेड पर पाएं <span class="highlight">$20 का फ्री बोनस</span>',
-                subHeading: 'आज ही अपना खाता बनाएं, नीचे दिए गए आधिकारिक रेफरल कोड का उपयोग करें और $20 का फर्स्ट टाइम ट्रेड बोनस प्राप्त करें।',
-                codeLabel: 'रेफरल कोड',
-                copyBtn: 'कॉपी करें',
-                copiedText: 'कॉपी हुआ!',
-                feat1: 'पहले ट्रेड पर विशेष $20 FTT बोनस',
-                feat2: 'सिंथेटिक इंडेक्स और फॉरेक्स 24/7 ट्रेड करें',
-                feat3: 'तुरंत डिपॉजिट और तेज़ विथड्रॉल सुविधा',
-                ctaBtn: 'अभी $20 बोनस प्राप्त करें',
-                riskWarning: 'जोखिम चेतावनी: वित्तीय ट्रेडिंग में पूंजी हानि का जोखिम होता है। फर्स्ट टाइम ट्रेड ($20) प्रमोशन के नियम व शर्तें लागू।'
+                s1Tag: 'चरण 1 / 2',
+                s1Title: 'क्या आपने कभी फॉरेक्स, गोल्ड या सिंथेटिक्स ट्रेड किया है?',
+                s1Sub: '$20 वेलकम बोनस के लिए अपना ट्रेडिंग अनुभव चुनें।',
+                opt1A: 'हाँ, मुझे ट्रेडिंग का अनुभव है',
+                opt1B: 'नहीं, मैं बिल्कुल नया हूँ',
+                s2Tag: 'चरण 2 / 2',
+                s2Title: 'क्या आप UAE में हैं और $20 बोनस के साथ शुरुआत करना चाहते हैं?',
+                s2Sub: 'यह ऑफर विशेष रूप से नए ट्रेडर्स के लिए आरक्षित है।',
+                opt2A: 'हाँ, मेरा $20 बोनस अनलॉक करें',
+                opt2B: 'हाँ, साइन अप विवरण दिखाएं',
+                resBadge: '✓ आप पात्र (Eligible) हैं!',
+                resTitle: 'आपका $20 वेलकम बोनस सुरक्षित है',
+                resSub: 'Deriv पर खाता खोलने के लिए नीचे क्लिक करें। रेफरल कोड अपने आप कॉपी हो जाएगा।',
+                promoHead: 'रेफरल कोड',
+                submitCta: 'अभी $20 बोनस पाएं और रजिस्टर करें →',
+                riskText: 'जोखिम चेतावनी: डेरिवेटिव ट्रेडिंग में पूंजी हानि का जोखिम होता है।'
             },
             tl: {
                 dir: 'ltr',
-                badgeText: 'Beripikadong Partner Promo',
-                mainHeading: 'Kumuha ng <span class="highlight">$20 Free Bonus</span> sa Unang Trade Mo',
-                subHeading: 'Gumawa ng account ngayon, ilagay ang opisyal na referral code sa ibaba, at i-unlock ang iyong $20 First Time Trade bonus.',
-                codeLabel: 'Referral Code',
-                copyBtn: 'Kopyahin',
-                copiedText: 'Nakopya!',
-                feat1: 'Eksklusibong $20 FTT bonus pagkatapos ng unang trade',
-                feat2: 'Mag-trade ng Synthetics at Forex 24/7',
-                feat3: 'Mabilis na deposit at local withdrawal',
-                ctaBtn: 'Kunin ang $20 Bonus Ngayon',
-                riskWarning: 'Babala sa Panganib: Ang trading ay may mataas na panganib ng pagkawala ng puhunan. May kaakibat na mga tuntunin ang $20 Promo.'
+                s1Tag: 'Hakbang 1 ng 2',
+                s1Title: 'Nag-trade ka na ba ng Forex, Gold, o Synthetics?',
+                s1Sub: 'Piliin ang iyong antas ng karanasan para sa $20 welcome bonus.',
+                opt1A: 'Oo, may karanasan ako sa trading',
+                opt1B: 'Hindi, baguhan lamang ako',
+                s2Tag: 'Hakbang 2 ng 2',
+                s2Title: 'Nasa UAE ka ba at handang magsimula sa $20 Bonus?',
+                s2Sub: 'Eksklusibo ang promo na ito para sa mga bagong traders.',
+                opt2A: 'Oo, i-unlock ang $20 Bonus',
+                opt2B: 'Oo, ipakita ang registration',
+                resBadge: '✓ Kwalipikado ka!',
+                resTitle: 'Naka-reserve na ang iyong $20 Bonus',
+                resSub: 'I-click sa ibaba para magparehistro sa Deriv. Awtomatikong makokopya ang promo code.',
+                promoHead: 'REFERRAL CODE',
+                submitCta: 'Kunin ang $20 Bonus at Mag-Sign Up →',
+                riskText: 'Babala sa Panganib: Ang trading ng derivatives ay may panganib sa kapital.'
             }
         };
 
         function switchLanguage(lang) {
             const data = translations[lang] || translations.en;
-            
             document.documentElement.setAttribute('dir', data.dir);
             document.documentElement.setAttribute('lang', lang);
 
-            document.getElementById('badgeText').innerText = data.badgeText;
-            document.getElementById('mainHeading').innerHTML = data.mainHeading;
-            document.getElementById('subHeading').innerText = data.subHeading;
-            document.getElementById('codeLabel').innerText = data.codeLabel;
-            document.getElementById('copyBtn').innerText = data.copyBtn;
-            document.getElementById('feat1').innerText = data.feat1;
-            document.getElementById('feat2').innerText = data.feat2;
-            document.getElementById('feat3').innerText = data.feat3;
-            document.getElementById('ctaBtn').innerText = data.ctaBtn;
-            document.getElementById('riskWarning').innerText = data.riskWarning;
+            document.getElementById('s1Tag').innerText = data.s1Tag;
+            document.getElementById('s1Title').innerText = data.s1Title;
+            document.getElementById('s1Sub').innerText = data.s1Sub;
+            document.getElementById('opt1A').innerText = data.opt1A;
+            document.getElementById('opt1B').innerText = data.opt1B;
 
-            document.getElementById('refCodeVal').innerText = ACTIVE_REF_CODE;
+            document.getElementById('s2Tag').innerText = data.s2Tag;
+            document.getElementById('s2Title').innerText = data.s2Title;
+            document.getElementById('s2Sub').innerText = data.s2Sub;
+            document.getElementById('opt2A').innerText = data.opt2A;
+            document.getElementById('opt2B').innerText = data.opt2B;
+
+            document.getElementById('resBadge').innerText = data.resBadge;
+            document.getElementById('resTitle').innerText = data.resTitle;
+            document.getElementById('resSub').innerText = data.resSub;
+            document.getElementById('promoHead').innerText = data.promoHead;
+            document.getElementById('submitCta').innerText = data.submitCta;
+            document.getElementById('riskText').innerText = data.riskText;
+
             document.getElementById('langSelect').value = lang;
         }
 
@@ -442,29 +512,13 @@
             initTracking();
 
             const browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
-            let targetLang = 'en';
+            let target = 'en';
+            if (browserLang.startsWith('ar')) target = 'ar';
+            else if (browserLang.startsWith('hi')) target = 'hi';
+            else if (browserLang.startsWith('tl') || browserLang.startsWith('fil')) target = 'tl';
 
-            if (browserLang.startsWith('ar')) {
-                targetLang = 'ar';
-            } else if (browserLang.startsWith('hi')) {
-                targetLang = 'hi';
-            } else if (browserLang.startsWith('tl') || browserLang.startsWith('fil')) {
-                targetLang = 'tl';
-            }
-
-            switchLanguage(targetLang);
+            switchLanguage(target);
         });
-
-        function copyCode() {
-            navigator.clipboard.writeText(ACTIVE_REF_CODE).then(() => {
-                const currentLang = document.getElementById('langSelect').value;
-                const copyBtn = document.getElementById('copyBtn');
-                copyBtn.innerText = translations[currentLang].copiedText;
-                setTimeout(() => {
-                    copyBtn.innerText = translations[currentLang].copyBtn;
-                }, 2000);
-            });
-        }
     </script>
 </body>
 </html>
