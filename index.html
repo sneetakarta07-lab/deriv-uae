@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Check Eligibility: $20 Trading Bonus | Deriv</title>
+    <title>Trading Welcome Voucher | Partner Overview</title>
     <style>
         :root {
             --primary: #ff444f;
@@ -196,6 +196,15 @@
             letter-spacing: 1px;
         }
 
+        .copy-tag {
+            background: #2a2b36;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+
         .cta-submit {
             display: block;
             width: 100%;
@@ -215,7 +224,6 @@
 
         .cta-submit:hover {
             background: var(--primary-hover);
-            transform: translateY(-2px);
         }
 
         footer {
@@ -233,10 +241,10 @@
         <div class="top-bar">
             <div class="logo-wrap">
                 <div class="logo-dot">d</div>
-                <span>deriv</span>
+                <span>deriv partner</span>
             </div>
             <div class="lang-switch">
-                <select id="langSelect" onchange="switchLanguage(this.value, true)">
+                <select id="langSelect" onchange="switchLanguage(this.value)">
                     <option value="en">English</option>
                     <option value="ar">العربية (Arabic)</option>
                     <option value="hi">हिन्दी (Hindi)</option>
@@ -252,8 +260,8 @@
         <!-- Step 1 -->
         <div class="step active" id="step1">
             <div class="step-tag" id="s1Tag">Step 1 of 2</div>
-            <h2 class="question-title" id="s1Title">Have you ever traded Forex, Gold, or Synthetics?</h2>
-            <p class="question-sub" id="s1Sub">Select your experience level to qualify for the $20 welcome voucher.</p>
+            <h2 class="question-title" id="s1Title">Have you ever traded Forex or Financial Assets?</h2>
+            <p class="question-sub" id="s1Sub">Select your experience level to view the available partner promotion.</p>
             <div class="btn-group">
                 <button class="opt-btn" onclick="nextStep(2)">
                     <span id="opt1A">Yes, I have trading experience</span>
@@ -269,15 +277,15 @@
         <!-- Step 2 -->
         <div class="step" id="step2">
             <div class="step-tag" id="s2Tag">Step 2 of 2</div>
-            <h2 class="question-title" id="s2Title">Are you residing in the UAE and ready to trade?</h2>
-            <p class="question-sub" id="s2Sub">This promotion is reserved exclusively for verified first-time traders.</p>
+            <h2 class="question-title" id="s2Title">Are you looking to get started with a $20 voucher?</h2>
+            <p class="question-sub" id="s2Sub">Available for eligible accounts via our official partner link.</p>
             <div class="btn-group">
                 <button class="opt-btn" onclick="nextStep(3)">
-                    <span id="opt2A">Yes, unlock my $20 Bonus</span>
+                    <span id="opt2A">Yes, show offer details</span>
                     <span>→</span>
                 </button>
                 <button class="opt-btn" onclick="nextStep(3)">
-                    <span id="opt2B">Yes, show sign-up details</span>
+                    <span id="opt2B">Continue to registration</span>
                     <span>→</span>
                 </button>
             </div>
@@ -285,31 +293,30 @@
 
         <!-- Step 3 -->
         <div class="step" id="step3">
-            <div class="badge-verified" id="resBadge">✓ You are Eligible!</div>
-            <h2 class="question-title" id="resTitle">Your $20 Welcome Bonus is Reserved</h2>
-            <p class="question-sub" id="resSub">Click below to register on Deriv. Promo code will be copied automatically.</p>
+            <div class="badge-verified" id="resBadge">✓ Offer Available</div>
+            <h2 class="question-title" id="resTitle">Welcome Voucher Overview</h2>
+            <p class="question-sub" id="resSub">Use the referral code below during signup on Deriv to claim your voucher.</p>
 
             <div class="promo-display">
                 <span style="font-size:0.75rem; color:var(--text-muted);" id="promoHead">REFERRAL CODE</span>
                 <span class="promo-val">DH54ZEQFYZH5</span>
+                <span class="copy-tag" onclick="manualCopy(this)">Copy</span>
             </div>
 
-            <button class="cta-submit" id="submitCta" onclick="handleFinalRedirect()">
-                Claim $20 Bonus & Register →
-            </button>
+            <a href="https://t.deriv.link?t=NEGTK7BHFWUG" class="cta-submit" id="submitCta" onclick="handleFinalRedirect(event)">
+                Continue to Official Site →
+            </a>
         </div>
     </div>
 
     <footer>
         <p>Independent Introducing Broker | Powered by Deriv API</p>
-        <p id="riskText" style="margin-top: 4px;">Risk Warning: Trading derivatives involves risk of capital loss.</p>
+        <p id="riskText" style="margin-top: 4px;">Risk Warning: Trading derivatives involves risk of capital loss. Promotion terms and conditions apply.</p>
     </footer>
 
     <script>
         const ACTIVE_REF_CODE = "DH54ZEQFYZH5";
         const BASE_AFFILIATE_URL = "https://t.deriv.link?t=NEGTK7BHFWUG";
-        
-        // PropellerAds Tracking Credentials
         const PA_AID = "246772";
         const PA_TID = "63885";
 
@@ -318,37 +325,20 @@
 
         function detectUserLanguage() {
             const rawLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
-            
-            // Normalize language identifier for reporting
             if (rawLang.startsWith('ar')) return 'ar';
             if (rawLang.startsWith('hi') || rawLang.startsWith('ur')) return 'hi';
             if (rawLang.startsWith('tl') || rawLang.startsWith('fil')) return 'tl';
-            if (rawLang.startsWith('en')) return 'en';
-            return rawLang.split('-')[0] || 'other';
+            return 'en';
         }
 
         function updateTrackingLinks() {
             const urlParams = new URLSearchParams(window.location.search);
-            
-            // Check visitor ID across networks (PropellerAds / Mondiad)
-            const visitorId = urlParams.get('visitor_id') || 
-                              urlParams.get('clickid') || 
-                              urlParams.get('subid') || 
-                              sessionStorage.getItem('t_visitor_id') || "";
+            const visitorId = urlParams.get('visitor_id') || urlParams.get('clickid') || urlParams.get('subid') || "";
+            const zoneId = urlParams.get('zone_id') || urlParams.get('zoneid') || "";
 
-            const zoneId = urlParams.get('zone_id') || 
-                           urlParams.get('zoneid') || 
-                           sessionStorage.getItem('t_zone_id') || "";
-
-            if (visitorId) sessionStorage.setItem('t_visitor_id', visitorId);
-            if (zoneId) sessionStorage.setItem('t_zone_id', zoneId);
+            if (visitorId) sessionStorage.setItem('pa_visitor_id', visitorId);
 
             const target = new URL(BASE_AFFILIATE_URL);
-            
-            // Deriv Affiliate Sub ID Mapping:
-            // sub_id  = Click / Visitor ID
-            // sub_id2 = Zone ID
-            // sub_id3 = Detected Browser Language (e.g. lang_ar, lang_hi, lang_en)
             if (visitorId) target.searchParams.set('sub_id', visitorId);
             if (zoneId) target.searchParams.set('sub_id2', zoneId);
             target.searchParams.set('sub_id3', 'lang_' + detectedBrowserLang);
@@ -360,6 +350,8 @@
             });
 
             finalAffiliateUrl = target.toString();
+            const linkElem = document.getElementById('submitCta');
+            if (linkElem) linkElem.href = finalAffiliateUrl;
         }
 
         function nextStep(stepNum) {
@@ -371,111 +363,102 @@
             if (stepNum === 3) pFill.style.width = '100%';
         }
 
-        function handleFinalRedirect() {
-            // Auto copy promo code
+        function manualCopy(elem) {
             if (navigator.clipboard) {
-                navigator.clipboard.writeText(ACTIVE_REF_CODE).catch(() => {});
+                navigator.clipboard.writeText(ACTIVE_REF_CODE);
+                elem.innerText = 'Copied!';
+                setTimeout(() => elem.innerText = 'Copy', 2000);
             }
+        }
 
-            const visitorId = sessionStorage.getItem('t_visitor_id') || 
-                              new URLSearchParams(window.location.search).get('visitor_id');
-
-            // Fire PropellerAds Postback
+        function handleFinalRedirect(e) {
+            const visitorId = sessionStorage.getItem('pa_visitor_id') || new URLSearchParams(window.location.search).get('visitor_id');
             if (visitorId) {
-                const postbackUrl = `https://ad.propellerads.com/conversion.php?aid=${PA_AID}&pid=&tid=${PA_TID}&visitor_id=${encodeURIComponent(visitorId)}&payout=0`;
-                
-                if (navigator.sendBeacon) {
-                    navigator.sendBeacon(postbackUrl);
-                }
                 const img = new Image();
-                img.src = postbackUrl;
+                img.src = `https://ad.propellerads.com/conversion.php?aid=${PA_AID}&pid=&tid=${PA_TID}&visitor_id=${encodeURIComponent(visitorId)}&payout=0`;
             }
-
-            setTimeout(() => {
-                window.location.href = finalAffiliateUrl;
-            }, 150);
         }
 
         const translations = {
             en: {
                 dir: 'ltr',
                 s1Tag: 'Step 1 of 2',
-                s1Title: 'Have you ever traded Forex, Gold, or Synthetics?',
-                s1Sub: 'Select your experience level to qualify for the $20 welcome voucher.',
+                s1Title: 'Have you ever traded Forex or Financial Assets?',
+                s1Sub: 'Select your experience level to view the available partner promotion.',
                 opt1A: 'Yes, I have trading experience',
                 opt1B: 'No, I am a beginner',
                 s2Tag: 'Step 2 of 2',
-                s2Title: 'Are you residing in the UAE and ready to trade?',
-                s2Sub: 'This promotion is reserved exclusively for verified first-time traders.',
-                opt2A: 'Yes, unlock my $20 Bonus',
-                opt2B: 'Yes, show sign-up details',
-                resBadge: '✓ You are Eligible!',
-                resTitle: 'Your $20 Welcome Bonus is Reserved',
-                resSub: 'Click below to register on Deriv. Promo code will be copied automatically.',
+                s2Title: 'Are you looking to get started with a $20 voucher?',
+                s2Sub: 'Available for eligible accounts via our official partner link.',
+                opt2A: 'Yes, show offer details',
+                opt2B: 'Continue to registration',
+                resBadge: '✓ Offer Available',
+                resTitle: 'Welcome Voucher Overview',
+                resSub: 'Use the referral code below during signup on Deriv to claim your voucher.',
                 promoHead: 'REFERRAL CODE',
-                submitCta: 'Claim $20 Bonus & Register →',
-                riskText: 'Risk Warning: Trading derivatives involves risk of capital loss.'
+                submitCta: 'Continue to Official Site →',
+                riskText: 'Risk Warning: Trading derivatives involves risk of capital loss. Promotion terms apply.'
             },
             ar: {
                 dir: 'rtl',
                 s1Tag: 'الخطوة 1 من 2',
-                s1Title: 'هل سبق لك تداول الفوركس، الذهب، أو المؤشرات؟',
-                s1Sub: 'حدد مستوى خبرتك في التداول للتأهل للحصول على قسيمة الـ 20 دولار.',
+                s1Title: 'هل لديك خبرة سابقة في التداول بالأسواق المالية؟',
+                s1Sub: 'حدد مستوى خبرتك للاطلاع على العرض الترويجي للشريك.',
                 opt1A: 'نعم، لدي خبرة في التداول',
                 opt1B: 'لا، أنا مبتدئ تماماً',
                 s2Tag: 'الخطوة 2 من 2',
-                s2Title: 'هل أنت متواجد في الإمارات ومستعد للبدء؟',
-                s2Sub: 'هذا العرض الترويجي مخصص حصرياً للمتداولين الجدد.',
-                opt2A: 'نعم، قم بتفعيل بونص 20$',
-                opt2B: 'نعم، أظهر خطوات التسجيل',
-                resBadge: '✓ أنت مؤهل للحصول على البونص!',
-                resTitle: 'تم حجز بونص الترحيب بقيمة 20 دولار',
-                resSub: 'اضغط بالأسفل لإنشاء حسابك على Deriv. سيتم نسخ كود الإحالة تلقائياً.',
+                s2Title: 'هل ترغب في البدء بقسيمة ترحيبية 20$؟',
+                s2Sub: 'متاح للحسابات المؤهلة عبر رابط الشريك المعتمد.',
+                opt2A: 'نعم، عرض التفاصيل',
+                opt2B: 'المتابعة إلى التسجيل',
+                resBadge: '✓ العرض متاح لك',
+                resTitle: 'نظرة عامة على القسيمة الترحيبية',
+                resSub: 'استخدم كود الإحالة أدناه عند إنشاء الحساب على منصة Deriv.',
                 promoHead: 'كود الإحالة الرسمي',
-                submitCta: 'احصل على 20$ وسجل الآن ←',
+                submitCta: 'المتابعة للموقع الرسمي ←',
                 riskText: 'تحذير المخاطر: ينطوي تداول المشتقات على مخاطر خسارة رأس المال.'
             },
             hi: {
                 dir: 'ltr',
                 s1Tag: 'चरण 1 / 2',
-                s1Title: 'क्या आपने कभी फॉरेक्स, गोल्ड या सिंथेटिक्स ट्रेड किया है?',
-                s1Sub: '$20 वेलकम बोनस के लिए अपना ट्रेडिंग अनुभव चुनें।',
-                opt1A: 'हाँ, मुझे ट्रेडिंग का अनुभव है',
-                opt1B: 'नहीं, मैं बिल्कुल नया हूँ',
+                s1Title: 'क्या आपके पास वित्तीय ट्रेडिंग का अनुभव है?',
+                s1Sub: 'उपलब्ध पार्टनर प्रमोशन देखने के लिए अपना अनुभव चुनें।',
+                opt1A: 'हाँ, मुझे ट्रेडिंग अनुभव है',
+                opt1B: 'नहीं, मैं शुरुआत कर रहा हूँ',
                 s2Tag: 'चरण 2 / 2',
-                s2Title: 'क्या आप UAE में हैं और $20 बोनस के साथ शुरुआत करना चाहते हैं?',
-                s2Sub: 'यह ऑफर विशेष रूप से नए ट्रेडर्स के लिए आरक्षित है।',
-                opt2A: 'हाँ, मेरा $20 बोनस अनलॉक करें',
-                opt2B: 'हाँ, साइन अप विवरण दिखाएं',
-                resBadge: '✓ आप पात्र (Eligible) हैं!',
-                resTitle: 'आपका $20 वेलकम बोनस सुरक्षित है',
-                resSub: 'Deriv पर खाता खोलने के लिए नीचे क्लिक करें। रेफरل कोड अपने आप कॉपी हो जाएगा।',
-                promoHead: 'रेफरल कोड',
-                submitCta: 'अभी $20 बोनस पाएं और रजिस्टर करें →',
+                s2Title: 'क्या आप $20 वेलकम वाउचर के साथ शुरुआत करना चाहते हैं?',
+                s2Sub: 'पात्र खातों के लिए आधिकारिक पार्टनर लिंक के माध्यम से उपलब्ध।',
+                opt2A: 'हाँ, ऑफर विवरण दिखाएं',
+                opt2B: 'पंजीकरण जारी रखें',
+                resBadge: '✓ ऑफर उपलब्ध है',
+                resTitle: 'वेलकम वाउचर विवरण',
+                resSub: 'वाउचर प्राप्त करने के लिए Deriv पर साइन अप के दौरान रेफरल कोड का उपयोग करें।',
+                promoHead: 'रेफरل कोड',
+                submitCta: 'आधिकारिक साइट पर जाएं →',
                 riskText: 'जोखिम चेतावनी: डेरिवेटिव ट्रेडिंग में पूंजी हानि का जोखिम होता है।'
             },
             tl: {
                 dir: 'ltr',
                 s1Tag: 'Hakbang 1 ng 2',
-                s1Title: 'Nag-trade ka na ba ng Forex, Gold, o Synthetics?',
-                s1Sub: 'Piliin ang iyong antas ng karanasan para sa $20 welcome bonus.',
-                opt1A: 'Oo, may karanasan ako sa trading',
+                s1Title: 'May karanasan ka ba sa Financial Trading?',
+                s1Sub: 'Piliin ang iyong antas upang makita ang partner promo.',
+                opt1A: 'Oo, may karanasan ako',
                 opt1B: 'Hindi, baguhan lamang ako',
                 s2Tag: 'Hakbang 2 ng 2',
-                s2Title: 'Nasa UAE ka ba at handang magsimula sa $20 Bonus?',
-                s2Sub: 'Eksklusibo ang promo na ito para sa mga bagong traders.',
-                opt2A: 'Oo, i-unlock ang $20 Bonus',
-                opt2B: 'Oo, ipakita ang registration',
-                resBadge: '✓ Kwalipikado ka!',
-                resTitle: 'Naka-reserve na ang iyong $20 Bonus',
-                resSub: 'I-click sa ibaba para magparehistro sa Deriv. Awtomatikong makokopya ang promo code.',
+                s2Title: 'Nais mo bang magsimula gamit ang $20 voucher?',
+                s2Sub: 'Para sa mga bagong eligible accounts.',
+                opt2A: 'Oo, ipakita ang detalye',
+                opt2B: 'Magpatuloy sa registration',
+                resBadge: '✓ Kwalipikado ang Account',
+                resTitle: 'Welcome Voucher Overview',
+                resSub: 'Gamitin ang referral code sa ibaba sa iyong pag-sign up sa Deriv.',
                 promoHead: 'REFERRAL CODE',
-                submitCta: 'Kunin ang $20 Bonus at Mag-Sign Up →',
-                riskText: 'Babala sa Panganib: Ang trading ng derivatives ay may panganib sa kapital.'
+                submitCta: 'Pumunta sa Opisyal na Website →',
+                riskText: 'Babala sa Panganib: Ang trading ay may panganib sa kapital.'
             }
         };
 
-        function switchLanguage(lang, manual = false) {
+        function switchLanguage(lang) {
             detectedBrowserLang = lang;
             const data = translations[lang] || translations.en;
 
@@ -502,7 +485,6 @@
             document.getElementById('riskText').innerText = data.riskText;
             document.getElementById('langSelect').value = lang;
 
-            // Update URL with newly selected/detected language
             updateTrackingLinks();
         }
 
