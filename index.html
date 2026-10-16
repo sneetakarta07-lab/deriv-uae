@@ -260,16 +260,17 @@
     </footer>
 
     <script>
-        // آپ کا تصدیق شدہ گوگل ایپس اسکرپٹ ویب ہک URL
+        // گوگل شیٹ ویب ہک URL
         const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxuGXtscceB7pGAVzMbjdVNtfH3_kpXp-QsOCpwdSMBCZIvfW9W5Fzy4k-0uM4hYDay/exec";
+
+        // PopAds Postback Credentials
+        const POPADS_AID = "ac7e32847e3e8169f251a1dff13a8d7b";
 
         const ACTIVE_REF_CODE = "DH54ZEQFYZH5";
         const BASE_AFFILIATE_URL = "https://t.deriv.link?t=NEGTK7BHFWUG";
-        const PA_AID = "246772";
-        const PA_TID = "63885";
 
         let trackedData = {
-            visitor_id: "",
+            impression_id: "",
             zone_id: "",
             country: ""
         };
@@ -277,12 +278,14 @@
         function initTracking() {
             const urlParams = new URLSearchParams(window.location.search);
             
-            trackedData.visitor_id = urlParams.get('visitor_id') || urlParams.get('clickid') || urlParams.get('subid') || "";
-            trackedData.zone_id = urlParams.get('zone_id') || urlParams.get('zoneid') || "";
-            trackedData.country = urlParams.get('geo') || urlParams.get('country') || "Global";
+            // PopAds پیرامیٹرز کیپچر کریں
+            trackedData.impression_id = urlParams.get('id') || urlParams.get('impression_id') || urlParams.get('visitor_id') || "";
+            trackedData.zone_id = urlParams.get('website_id') || urlParams.get('zone_id') || "";
+            trackedData.country = urlParams.get('country') || urlParams.get('geo') || "Global";
 
-            if (trackedData.visitor_id) sessionStorage.setItem('lead_vid', trackedData.visitor_id);
-            if (trackedData.zone_id) sessionStorage.setItem('lead_zid', trackedData.zone_id);
+            if (trackedData.impression_id) sessionStorage.setItem('pa_impr_id', trackedData.impression_id);
+            if (trackedData.zone_id) sessionStorage.setItem('pa_zone_id', trackedData.zone_id);
+            if (trackedData.country) sessionStorage.setItem('pa_country', trackedData.country);
         }
 
         async function handleFormSubmit(e) {
@@ -296,30 +299,32 @@
             const whatsapp = document.getElementById('userWhatsApp').value.trim();
             const email = document.getElementById('userEmail').value.trim();
 
-            const vid = trackedData.visitor_id || sessionStorage.getItem('lead_vid') || "";
-            const zid = trackedData.zone_id || sessionStorage.getItem('lead_zid') || "";
+            const imprId = trackedData.impression_id || sessionStorage.getItem('pa_impr_id') || "";
+            const zoneId = trackedData.zone_id || sessionStorage.getItem('pa_zone_id') || "";
+            const country = trackedData.country || sessionStorage.getItem('pa_country') || "Global";
 
-            // ڈیٹا کو URLSearchParams فارمیٹ میں تیار کیا تاکہ Apps Script فوراً وصول کرے
+            // گوگل شیٹ کے لیے پے لوڈ تیار کریں
             const postParams = new URLSearchParams();
             postParams.append('name', name);
             postParams.append('whatsapp', whatsapp);
             postParams.append('email', email);
-            postParams.append('country', trackedData.country);
-            postParams.append('zone_id', zid);
-            postParams.append('visitor_id', vid);
+            postParams.append('country', country);
+            postParams.append('zone_id', zoneId);
+            postParams.append('visitor_id', imprId);
 
-            // PropellerAds پوسٹ بیک ٹریگر
-            if (vid) {
+            // PopAds S2S Postback فائر کریں
+            if (imprId) {
+                const pbUrl = `https://serve.popads.net/cpixel.php?s2s=1&aid=${POPADS_AID}&id=${encodeURIComponent(imprId)}&value=0`;
                 const img = new Image();
-                img.src = `https://ad.propellerads.com/conversion.php?aid=${PA_AID}&pid=&tid=${PA_TID}&visitor_id=${encodeURIComponent(vid)}&payout=0`;
+                img.src = pbUrl;
             }
 
-            // ریفرل کوڈ کلپ بورڈ میں کاپی
+            // پرومو کوڈ کاپی کریں
             if (navigator.clipboard) {
                 navigator.clipboard.writeText(ACTIVE_REF_CODE).catch(() => {});
             }
 
-            // گوگل شیٹ میں ڈیٹا بھیجنا
+            // گوگل شیٹ میں ڈیٹا بھیجیں
             try {
                 await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
                     method: 'POST',
@@ -330,19 +335,19 @@
                     body: postParams.toString()
                 });
             } catch(err) {
-                console.log("Transmission log:", err);
+                console.log("Sheet log error:", err);
             }
 
-            // اسکرین بدل کر ری ڈائریکشن میسج دکھانا
             document.getElementById('formSection').style.display = 'none';
             document.getElementById('statusBox').style.display = 'block';
 
+            // Deriv Affiliate Link تیار کریں
             const target = new URL(BASE_AFFILIATE_URL);
-            if (vid) target.searchParams.set('sub_id', vid);
-            if (zid) target.searchParams.set('sub_id2', zid);
-            target.searchParams.set('sub_id3', 'lead_gen');
+            if (imprId) target.searchParams.set('sub_id', imprId);
+            if (zoneId) target.searchParams.set('sub_id2', zoneId);
+            target.searchParams.set('sub_id3', 'popads_lead');
 
-            // 2 سیکنڈ کا توقف تاکہ گوگل شیٹ میں ڈیٹا مکمل رائٹ ہو جائے
+            // 2 سیکنڈ کا توقف تاکہ ڈیٹا مکمل محفوظ ہو سکے
             setTimeout(() => {
                 window.location.href = target.toString();
             }, 2000);
